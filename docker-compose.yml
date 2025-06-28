@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Node.js API Service
+  # NestJS API Service
   api:
     build:
       context: .
@@ -28,7 +28,7 @@ services:
       - postgres
       - redis
       - kafka
-    command: npm run dev
+    command: npm run start:dev
     restart: unless-stopped
 
   # PostgreSQL Service
