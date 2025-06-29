@@ -35,16 +35,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  // Health check endpoint
-  app.get('/health', (req, res) => {
-    res.status(200).json({ status: 'ok' });
-  });
-
   const port = process.env.PORT || 3000;
   await app.listen(port);
   
   logger.info(`Application is running on: http://localhost:${port}`);
   logger.info(`Swagger documentation: http://localhost:${port}/api-docs`);
+  logger.info(`Health check: http://localhost:${port}/api/health`);
 }
 
 bootstrap(); 

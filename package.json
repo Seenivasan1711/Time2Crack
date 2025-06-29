@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "AI-assisted e-commerce platform backend with NestJS",
   "main": "dist/main.js",
-  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

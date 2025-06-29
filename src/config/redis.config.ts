@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CacheModuleOptions, CacheOptionsFactory } from '@nestjs/cache-manager';
-import * as redisStore from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-redis-store';
 
 @Injectable()
 export class RedisConfig implements CacheOptionsFactory {
@@ -9,7 +9,7 @@ export class RedisConfig implements CacheOptionsFactory {
 
   createCacheOptions(): CacheModuleOptions {
     return {
-      store: redisStore,
+      store: redisStore as any,
       host: this.configService.get('REDIS_HOST', 'localhost'),
       port: this.configService.get('REDIS_PORT', 6379),
       ttl: 60 * 60 * 24, // 24 hours
