@@ -1,5 +1,6 @@
 export declare class RegisterDto {
-    name: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
 }
@@ -8,7 +9,8 @@ export declare class LoginDto {
     password: string;
 }
 export declare class UpdateProfileDto {
-    name?: string;
+    firstName?: string;
+    lastName?: string;
     email?: string;
     password?: string;
 }

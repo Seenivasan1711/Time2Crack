@@ -1,7 +1,7 @@
 {
-  "name": "ai-ecommerce-backend",
+  "name": "time2crack-backend",
   "version": "1.0.0",
-  "description": "AI-assisted e-commerce platform backend with NestJS",
+  "description": "Time2Crack AI-assisted platform backend with NestJS",
   "main": "dist/main.js",
   "scripts": {
     "build": "nest build",
@@ -16,6 +16,15 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/config/typeorm.config.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/config/typeorm.config.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/config/typeorm.config.ts",
+    "migration:show": "npm run typeorm -- migration:show -d src/config/typeorm.config.ts",
+    "schema:sync": "npm run typeorm -- schema:sync -d src/config/typeorm.config.ts",
+    "schema:drop": "npm run typeorm -- schema:drop -d src/config/typeorm.config.ts",
+    "db:create": "./scripts/create-database.sh",
+    "db:setup": "./scripts/setup-database.sh",
     "postinstall": "echo 'If using Gemini, set AI_PROVIDER=gemini and GEMINI_API_KEY in your .env file.'"
   },
   "dependencies": {

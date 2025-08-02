@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
@@ -20,6 +20,7 @@ import { HealthModule } from './modules/health/health.module';
 import { DatabaseConfig } from './config/database.config';
 import { RedisConfig } from './config/redis.config';
 import { KafkaConfig } from './config/kafka.config';
+import { DatabaseInitService } from './common/utils/database-init';
 
 @Module({
   imports: [
@@ -64,6 +65,13 @@ import { KafkaConfig } from './config/kafka.config';
     AssistantModule,
     HealthModule,
   ],
-  providers: [KafkaConfig],
+  providers: [KafkaConfig, DatabaseInitService],
 })
-export class AppModule {} 
+export class AppModule implements OnModuleInit {
+  constructor(private readonly databaseInitService: DatabaseInitService) {}
+
+  async onModuleInit() {
+    // Initialize database on application startup
+    await this.databaseInitService.initializeDatabase();
+  }
+} 

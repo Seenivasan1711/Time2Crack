@@ -17,24 +17,35 @@ const logger_1 = require("../common/utils/logger");
 let KafkaConfig = class KafkaConfig {
     constructor(configService) {
         this.configService = configService;
-        this.kafka = new kafkajs_1.Kafka({
-            clientId: 'ai-ecommerce-backend',
-            brokers: [this.configService.get('KAFKA_BROKERS', 'localhost:9092')],
-        });
-        this.producer = this.kafka.producer();
-        this.consumer = this.kafka.consumer({ groupId: 'ai-ecommerce-group' });
+        this.isEnabled = this.configService.get('KAFKA_ENABLED', 'true') === 'true';
+        if (this.isEnabled) {
+            this.kafka = new kafkajs_1.Kafka({
+                clientId: 'time2crack-backend',
+                brokers: [this.configService.get('KAFKA_BROKERS', 'localhost:9092')],
+            });
+            this.producer = this.kafka.producer();
+            this.consumer = this.kafka.consumer({ groupId: 'time2crack-group' });
+        }
     }
     async onModuleInit() {
+        if (!this.isEnabled) {
+            logger_1.logger.info('Kafka is disabled, skipping connection');
+            return;
+        }
         try {
             await this.producer.connect();
             await this.consumer.connect();
             logger_1.logger.info('Kafka producer and consumer connected successfully');
         }
         catch (error) {
-            logger_1.logger.error('Failed to connect to Kafka:', error);
+            logger_1.logger.warn('Failed to connect to Kafka, continuing without Kafka:', error.message);
+            this.isEnabled = false;
         }
     }
     async onModuleDestroy() {
+        if (!this.isEnabled || !this.producer || !this.consumer) {
+            return;
+        }
         try {
             await this.producer.disconnect();
             await this.consumer.disconnect();
@@ -45,12 +56,16 @@ let KafkaConfig = class KafkaConfig {
         }
     }
     getProducer() {
-        return this.producer;
+        return this.isEnabled ? this.producer : null;
     }
     getConsumer() {
-        return this.consumer;
+        return this.isEnabled ? this.consumer : null;
     }
     async publishMessage(topic, message) {
+        if (!this.isEnabled || !this.producer) {
+            logger_1.logger.warn('Kafka is disabled, message not published');
+            return;
+        }
         try {
             await this.producer.send({
                 topic,
@@ -64,6 +79,10 @@ let KafkaConfig = class KafkaConfig {
         }
     }
     async subscribeToTopic(topic, callback) {
+        if (!this.isEnabled || !this.consumer) {
+            logger_1.logger.warn('Kafka is disabled, subscription not created');
+            return;
+        }
         try {
             await this.consumer.subscribe({ topic, fromBeginning: true });
             await this.consumer.run({

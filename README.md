@@ -1,6 +1,6 @@
-# AI-Assisted E-Commerce Backend with NestJS
+# Time2Crack Backend with NestJS
 
-A production-grade NestJS backend for an AI-assisted e-commerce platform with JWT authentication, product catalog, cart/order management, scheduled delivery system, and AI features.
+A production-grade NestJS backend for the Time2Crack AI-assisted platform with JWT authentication, product catalog, cart/order management, scheduled delivery system, and AI features.
 
 ## Features
 
@@ -15,6 +15,7 @@ A production-grade NestJS backend for an AI-assisted e-commerce platform with JW
 - 📚 Auto-generated API documentation with Swagger
 - 🧪 Comprehensive testing with Jest
 - 🔒 Built-in validation and security features
+- 🗄️ **Database migrations with TypeORM**
 
 ## Tech Stack
 
@@ -27,6 +28,7 @@ A production-grade NestJS backend for an AI-assisted e-commerce platform with JW
 - **Documentation**: Swagger/OpenAPI
 - **Containerization**: Docker, Docker Compose
 - **Testing**: Jest, Supertest
+- **Migrations**: TypeORM Migrations
 
 ## Getting Started
 
@@ -41,8 +43,8 @@ A production-grade NestJS backend for an AI-assisted e-commerce platform with JW
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ai-ecommerce-backend.git
-cd ai-ecommerce-backend
+git clone https://github.com/yourusername/time2crack-backend.git
+cd time2crack-backend
 ```
 
 2. Create .env file:
@@ -57,7 +59,7 @@ Update the .env file with your configuration:
 # Database
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=ecommerce
+DB_NAME=time2crack
 DB_USER=postgres
 DB_PASSWORD=postgres
 
@@ -90,6 +92,47 @@ docker-compose up -d
 
 The API will be available at http://localhost:3000.
 
+## Database Management
+
+### Automatic Database Setup
+
+The application automatically:
+- Creates the `time2crack` database if it doesn't exist
+- Runs all pending migrations on startup
+- Sets up all required tables and indexes
+
+### Manual Migration Commands
+
+```bash
+# Generate a new migration
+npm run migration:generate -- src/migrations/MigrationName
+
+# Run pending migrations
+npm run migration:run
+
+# Revert last migration
+npm run migration:revert
+
+# Show migration status
+npm run migration:show
+
+# Sync schema (development only)
+npm run schema:sync
+
+# Drop schema (development only)
+npm run schema:drop
+```
+
+### Database Structure
+
+The application includes the following tables:
+- **users** - User accounts and authentication
+- **categories** - Product categories
+- **products** - Product catalog
+- **cart** - Shopping cart items
+- **orders** - Order management
+- **order_items** - Order line items
+
 ## Development
 
 ### Local Development
@@ -102,138 +145,66 @@ For local development without Docker:
 npm install
 ```
 
-2. Start the development server:
+2. Start PostgreSQL and Redis locally:
+
+```bash
+# PostgreSQL
+brew install postgresql
+brew services start postgresql
+
+# Redis
+brew install redis
+brew services start redis
+```
+
+3. Start the development server:
 
 ```bash
 npm run start:dev
 ```
 
-The application will be available at http://localhost:3000 with hot reload enabled.
+The application will automatically:
+- Create the database if it doesn't exist
+- Run all migrations
+- Start the development server
 
-### Available Scripts
+### API Documentation
 
-- `npm run start:dev` - Start development server with hot reload
-- `npm run start:prod` - Start production server
-- `npm run build` - Build the application
-- `npm run test` - Run tests
-- `npm run test:watch` - Run tests in watch mode
-- `npm run test:cov` - Run tests with coverage
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
-
-## API Documentation
-
-API documentation is automatically generated and available via Swagger UI at http://localhost:3000/api-docs when the application is running.
-
-## Project Structure
-
-```
-src/
-├── modules/           # Feature modules
-│   ├── auth/         # Authentication module
-│   │   ├── dto/      # Data Transfer Objects
-│   │   ├── guards/   # Authentication guards
-│   │   ├── strategies/ # Passport strategies
-│   │   ├── auth.controller.ts
-│   │   ├── auth.service.ts
-│   │   └── auth.module.ts
-│   ├── users/        # Users module
-│   ├── products/     # Products module
-│   ├── categories/   # Categories module
-│   ├── cart/         # Cart module
-│   ├── orders/       # Orders module
-│   ├── assistant/    # AI assistant module
-│   └── health/       # Health checks module
-├── config/           # Configuration files
-│   ├── database.config.ts
-│   ├── redis.config.ts
-│   └── kafka.config.ts
-├── common/           # Shared utilities
-│   └── utils/        # Utility functions
-├── app.module.ts     # Root application module
-└── main.ts           # Application entry point
-```
-
-## Core Modules
-
-### Authentication Module
-
-- User registration and login with JWT
-- Password hashing with bcrypt
-- JWT authentication guard
-- Profile management
-
-### Product & Category Module
-
-- CRUD operations for products and categories
-- Product search and filtering
-- Redis caching for improved performance
-
-### Cart & Order Module
-
-- Add to cart, update quantity, remove items
-- Place orders with delivery scheduling
-- Order status tracking
-
-### Scheduled Delivery (Kafka)
-
-- Order events published to Kafka
-- Delivery events processing
-- Status updates
-
-### AI Assistant
-
-- FAQ chatbot using OpenAI/Gemini
-- Product recommendations
-- Multimodal support (text and images)
+Once the application is running, you can access:
+- **Swagger UI**: http://localhost:3000/api-docs
+- **Health Check**: http://localhost:3000/api/health
 
 ## Testing
 
 Run tests:
 
 ```bash
+# Unit tests
 npm test
-```
 
-Run tests with coverage:
+# E2E tests
+npm run test:e2e
 
-```bash
+# Test coverage
 npm run test:cov
 ```
 
 ## Deployment
 
-The application can be deployed using Docker to any container orchestration platform. CI/CD is set up for automatic deployment to Railway.
+The application can be deployed using Docker to any container orchestration platform. CI/CD is set up for automatic deployment.
 
-### Docker Deployment
+### Production Considerations
 
-```bash
-# Build the application
-docker build -t ai-ecommerce-backend .
+- Set `NODE_ENV=production`
+- Use strong JWT secrets
+- Configure SSL certificates
+- Set up proper logging
+- Use production database credentials
+- Disable `synchronize` in TypeORM config
 
-# Run the container
-docker run -p 3000:3000 ai-ecommerce-backend
-```
+## License
 
-## Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NODE_ENV` | Environment mode | `development` |
-| `PORT` | Application port | `3000` |
-| `DB_HOST` | Database host | `localhost` |
-| `DB_PORT` | Database port | `5432` |
-| `DB_NAME` | Database name | `ecommerce` |
-| `DB_USER` | Database user | `postgres` |
-| `DB_PASSWORD` | Database password | `postgres` |
-| `JWT_SECRET` | JWT secret key | Required |
-| `JWT_EXPIRES_IN` | JWT expiration time | `7d` |
-| `REDIS_HOST` | Redis host | `localhost` |
-| `REDIS_PORT` | Redis port | `6379` |
-| `KAFKA_BROKERS` | Kafka brokers | `localhost:9092` |
-| `AI_PROVIDER` | AI provider (openai/gemini) | `openai` |
-| `OPENAI_API_KEY` | OpenAI API key | Required for OpenAI |
-| `GEMINI_API_KEY` | Gemini API key | Required for Gemini |
+MIT
 
 ## AI Provider Configuration
 
@@ -247,19 +218,3 @@ The backend supports both OpenAI (default) and Gemini (Google AI) for the AI ass
 ### Multimodal Support
 
 The `/api/assistant/chat` endpoint supports both text and image input when using Gemini. To send an image, include it as a base64 string or file URL in the request body.
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-MIT
-
-## Support
-
-For support, email support@example.com or join our Slack channel.

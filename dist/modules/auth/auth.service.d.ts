@@ -7,28 +7,32 @@ export declare class AuthService {
     private jwtService;
     constructor(userRepository: Repository<User>, jwtService: JwtService);
     register(registerDto: RegisterDto): Promise<{
-        id: string;
-        name: string;
+        id: number;
+        firstName: string;
+        lastName: string;
         email: string;
         role: import("../users/entities/user.entity").UserRole;
         token: string;
     }>;
     login(loginDto: LoginDto): Promise<{
-        id: string;
-        name: string;
+        id: number;
+        firstName: string;
+        lastName: string;
         email: string;
         role: import("../users/entities/user.entity").UserRole;
         token: string;
     }>;
-    getProfile(userId: string): Promise<{
-        id: string;
-        name: string;
+    getProfile(userId: number): Promise<{
+        id: number;
+        firstName: string;
+        lastName: string;
         email: string;
         role: import("../users/entities/user.entity").UserRole;
     }>;
-    updateProfile(userId: string, updateProfileDto: UpdateProfileDto): Promise<{
-        id: string;
-        name: string;
+    updateProfile(userId: number, updateProfileDto: UpdateProfileDto): Promise<{
+        id: number;
+        firstName: string;
+        lastName: string;
         email: string;
         role: import("../users/entities/user.entity").UserRole;
         token: string;

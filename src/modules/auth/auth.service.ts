@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const { name, email, password } = registerDto;
+    const { firstName, lastName, email, password } = registerDto;
 
     // Check if user exists
     const existingUser = await this.userRepository.findOne({ where: { email } });
@@ -24,16 +24,18 @@ export class AuthService {
 
     // Create user
     const user = this.userRepository.create({
-      name,
+      firstName,
+      lastName,
       email,
-      passwordHash: password,
+      password,
     });
 
     const savedUser = await this.userRepository.save(user);
 
     return {
       id: savedUser.id,
-      name: savedUser.name,
+      firstName: savedUser.firstName,
+      lastName: savedUser.lastName,
       email: savedUser.email,
       role: savedUser.role,
       token: this.generateToken(savedUser.id),
@@ -57,14 +59,15 @@ export class AuthService {
 
     return {
       id: user.id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       role: user.role,
       token: this.generateToken(user.id),
     };
   }
 
-  async getProfile(userId: string) {
+  async getProfile(userId: number) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new UnauthorizedException('User not found');
@@ -72,41 +75,46 @@ export class AuthService {
 
     return {
       id: user.id,
-      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
       email: user.email,
       role: user.role,
     };
   }
 
-  async updateProfile(userId: string, updateProfileDto: UpdateProfileDto) {
+  async updateProfile(userId: number, updateProfileDto: UpdateProfileDto) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
     // Update fields
-    if (updateProfileDto.name) {
-      user.name = updateProfileDto.name;
+    if (updateProfileDto.firstName) {
+      user.firstName = updateProfileDto.firstName;
+    }
+    if (updateProfileDto.lastName) {
+      user.lastName = updateProfileDto.lastName;
     }
     if (updateProfileDto.email) {
       user.email = updateProfileDto.email;
     }
     if (updateProfileDto.password) {
-      user.passwordHash = updateProfileDto.password;
+      user.password = updateProfileDto.password;
     }
 
     const updatedUser = await this.userRepository.save(user);
 
     return {
       id: updatedUser.id,
-      name: updatedUser.name,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
       email: updatedUser.email,
       role: updatedUser.role,
       token: this.generateToken(updatedUser.id),
     };
   }
 
-  private generateToken(userId: string): string {
+  private generateToken(userId: number): string {
     return this.jwtService.sign({ sub: userId });
   }
 } 

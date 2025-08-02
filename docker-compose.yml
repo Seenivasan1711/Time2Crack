@@ -14,7 +14,7 @@ services:
       - JWT_SECRET=dev_jwt_secret
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=ecommerce
+      - DB_NAME=time2crack
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - REDIS_HOST=redis
@@ -39,7 +39,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ecommerce
+      - POSTGRES_DB=time2crack
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped

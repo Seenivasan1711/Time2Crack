@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the recommended architecture for integrating AI/ML capabilities into the Time2Crack e-commerce platform using Python services with message queue communication.
+This document outlines the recommended architecture for integrating AI/ML capabilities into the Time2Crack platform using Python services with message queue communication.
 
 ## Why Python + Message Queues for AI/ML?
 
@@ -17,8 +17,8 @@ This document outlines the recommended architecture for integrating AI/ML capabi
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Node.js API   │───▶│  Message Queue  │───▶│  Python AI/ML   │
-│   (Express)     │    │   (Redis/Kafka) │    │   (FastAPI)     │
+│   NestJS API    │───▶│  Message Queue  │───▶│  Python AI/ML   │
+│   (TypeScript)  │    │   (Redis/Kafka) │    │   (FastAPI)     │
 │                 │◀───│                 │◀───│                 │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
@@ -79,44 +79,58 @@ if __name__ == "__main__":
     asyncio.run(handle_ai_requests())
 ```
 
-#### Node.js Integration
-```javascript
-// In your existing assistantController.js
-import redis from 'redis';
+#### NestJS Integration
+```typescript
+// In your existing assistant.controller.ts
+import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import { Redis } from 'redis';
 
-const redisClient = redis.createClient({
+const redisClient = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
-  port: process.env.REDIS_PORT || 6379
+  port: parseInt(process.env.REDIS_PORT || '6379')
 });
 
-export const chatWithAI = async (req, res) => {
-  try {
-    const { message, context } = req.body;
-    
-    // Publish request to Redis
-    const requestData = {
-      user_id: req.user.id,
-      message,
-      context,
-      timestamp: new Date().toISOString()
-    };
-    
-    await redisClient.publish('ai_requests', JSON.stringify(requestData));
-    
-    // Subscribe to results (in production, use a more robust approach)
-    const subscriber = redisClient.duplicate();
-    subscriber.subscribe('ai_results');
-    
-    subscriber.on('message', (channel, message) => {
-      const result = JSON.parse(message);
-      res.json(result);
-      subscriber.unsubscribe();
-    });
-    
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+@Controller('assistant')
+export class AssistantController {
+  
+  @Post('chat')
+  async chatWithAI(@Body() body: { message: string; context?: any }, @Request() req: any) {
+    try {
+      const { message, context } = body;
+      
+      // Publish request to Redis
+      const requestData = {
+        user_id: req.user?.id,
+        message,
+        context,
+        timestamp: new Date().toISOString()
+      };
+      
+      await redisClient.publish('ai_requests', JSON.stringify(requestData));
+      
+      // Subscribe to results (in production, use a more robust approach)
+      const subscriber = redisClient.duplicate();
+      subscriber.subscribe('ai_results');
+      
+      return new Promise((resolve, reject) => {
+        subscriber.on('message', (channel, message) => {
+          const result = JSON.parse(message);
+          subscriber.unsubscribe();
+          resolve(result);
+        });
+        
+        // Timeout after 30 seconds
+        setTimeout(() => {
+          subscriber.unsubscribe();
+          reject(new Error('AI request timeout'));
+        }, 30000);
+      });
+      
+    } catch (error) {
+      throw new Error(`AI processing failed: ${error.message}`);
+    }
   }
-};
+}
 ```
 
 ### Option 2: Kafka (For high-scale production)
@@ -159,7 +173,7 @@ if __name__ == "__main__":
 version: '3.8'
 
 services:
-  # Node.js API (existing)
+  # NestJS API (existing)
   api:
     build: .
     ports:
@@ -170,7 +184,7 @@ services:
       - JWT_SECRET=dev_jwt_secret
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=ecommerce
+      - DB_NAME=time2crack
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - REDIS_HOST=redis
@@ -185,7 +199,7 @@ services:
       - redis
       - kafka
       - python-ai
-    command: npm run dev
+    command: npm run start:dev
     restart: unless-stopped
 
   # Python AI Service (new)
@@ -214,7 +228,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ecommerce
+      - POSTGRES_DB=time2crack
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -269,7 +283,7 @@ volumes:
 
 ## Migration Path
 
-1. **Keep existing Node.js API** for web endpoints
+1. **Keep existing NestJS API** for web endpoints
 2. **Add Python AI service** for ML processing
 3. **Use Redis/Kafka** for communication
 4. **Gradually migrate** AI features to Python
@@ -299,8 +313,8 @@ ai-service/
 1. Create the Python AI service directory structure
 2. Set up FastAPI with Redis/Kafka integration
 3. Implement AI model processing logic
-4. Update Node.js controllers to use message queues
+4. Update NestJS controllers to use message queues
 5. Test the communication between services
 6. Deploy with Docker Compose
 
-This architecture provides the best of both worlds: Node.js performance for web APIs and Python's AI/ML capabilities, with reliable message queue communication between them. 
+This architecture provides the best of both worlds: NestJS performance for web APIs and Python's AI/ML capabilities, with reliable message queue communication between them. 

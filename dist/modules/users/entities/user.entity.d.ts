@@ -1,13 +1,16 @@
 export declare enum UserRole {
     USER = "user",
-    ADMIN = "admin"
+    ADMIN = "admin",
+    MODERATOR = "moderator"
 }
 export declare class User {
-    id: string;
-    name: string;
+    id: number;
     email: string;
-    passwordHash: string;
+    password: string;
+    firstName: string;
+    lastName: string;
     role: UserRole;
+    isActive: boolean;
     createdAt: Date;
     updatedAt: Date;
     hashPassword(): Promise<void>;

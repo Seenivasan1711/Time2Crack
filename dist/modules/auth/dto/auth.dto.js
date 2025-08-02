@@ -16,10 +16,15 @@ class RegisterDto {
 }
 exports.RegisterDto = RegisterDto;
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: 'User name' }),
+    (0, swagger_1.ApiProperty)({ description: 'User first name' }),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], RegisterDto.prototype, "name", void 0);
+], RegisterDto.prototype, "firstName", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ description: 'User last name' }),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "lastName", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({ description: 'User email' }),
     (0, class_validator_1.IsEmail)(),
@@ -48,11 +53,17 @@ class UpdateProfileDto {
 }
 exports.UpdateProfileDto = UpdateProfileDto;
 __decorate([
-    (0, swagger_1.ApiPropertyOptional)({ description: 'User name' }),
+    (0, swagger_1.ApiPropertyOptional)({ description: 'User first name' }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
-], UpdateProfileDto.prototype, "name", void 0);
+], UpdateProfileDto.prototype, "firstName", void 0);
+__decorate([
+    (0, swagger_1.ApiPropertyOptional)({ description: 'User last name' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "lastName", void 0);
 __decorate([
     (0, swagger_1.ApiPropertyOptional)({ description: 'User email' }),
     (0, class_validator_1.IsOptional)(),

@@ -17,26 +17,23 @@ var UserRole;
 (function (UserRole) {
     UserRole["USER"] = "user";
     UserRole["ADMIN"] = "admin";
+    UserRole["MODERATOR"] = "moderator";
 })(UserRole || (exports.UserRole = UserRole = {}));
 let User = class User {
     async hashPassword() {
-        if (this.passwordHash && this.passwordHash.length < 60) {
-            this.passwordHash = await bcrypt.hash(this.passwordHash, 10);
+        if (this.password && this.password.length < 60) {
+            this.password = await bcrypt.hash(this.password, 10);
         }
     }
     async comparePassword(candidatePassword) {
-        return bcrypt.compare(candidatePassword, this.passwordHash);
+        return bcrypt.compare(candidatePassword, this.password);
     }
 };
 exports.User = User;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", String)
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
 ], User.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
-    __metadata("design:type", String)
-], User.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255, unique: true }),
     __metadata("design:type", String)
@@ -45,15 +42,27 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255 }),
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", String)
-], User.prototype, "passwordHash", void 0);
+], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "firstName", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "lastName", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        type: 'enum',
-        enum: UserRole,
+        type: 'varchar',
+        length: 50,
         default: UserRole.USER,
     }),
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', default: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "isActive", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

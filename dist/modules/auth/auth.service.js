@@ -24,20 +24,22 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async register(registerDto) {
-        const { name, email, password } = registerDto;
+        const { firstName, lastName, email, password } = registerDto;
         const existingUser = await this.userRepository.findOne({ where: { email } });
         if (existingUser) {
             throw new common_1.ConflictException('User already exists');
         }
         const user = this.userRepository.create({
-            name,
+            firstName,
+            lastName,
             email,
-            passwordHash: password,
+            password,
         });
         const savedUser = await this.userRepository.save(user);
         return {
             id: savedUser.id,
-            name: savedUser.name,
+            firstName: savedUser.firstName,
+            lastName: savedUser.lastName,
             email: savedUser.email,
             role: savedUser.role,
             token: this.generateToken(savedUser.id),
@@ -55,7 +57,8 @@ let AuthService = class AuthService {
         }
         return {
             id: user.id,
-            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role,
             token: this.generateToken(user.id),
@@ -68,7 +71,8 @@ let AuthService = class AuthService {
         }
         return {
             id: user.id,
-            name: user.name,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role,
         };
@@ -78,19 +82,23 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.UnauthorizedException('User not found');
         }
-        if (updateProfileDto.name) {
-            user.name = updateProfileDto.name;
+        if (updateProfileDto.firstName) {
+            user.firstName = updateProfileDto.firstName;
+        }
+        if (updateProfileDto.lastName) {
+            user.lastName = updateProfileDto.lastName;
         }
         if (updateProfileDto.email) {
             user.email = updateProfileDto.email;
         }
         if (updateProfileDto.password) {
-            user.passwordHash = updateProfileDto.password;
+            user.password = updateProfileDto.password;
         }
         const updatedUser = await this.userRepository.save(user);
         return {
             id: updatedUser.id,
-            name: updatedUser.name,
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
             email: updatedUser.email,
             role: updatedUser.role,
             token: this.generateToken(updatedUser.id),

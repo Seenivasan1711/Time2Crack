@@ -23,9 +23,10 @@ let DatabaseConfig = class DatabaseConfig {
             port: this.configService.get('DB_PORT', 5432),
             username: this.configService.get('DB_USER', 'postgres'),
             password: this.configService.get('DB_PASSWORD', 'postgres'),
-            database: this.configService.get('DB_NAME', 'ecommerce'),
+            database: this.configService.get('DB_NAME', 'time2crack'),
             entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-            synchronize: this.configService.get('NODE_ENV') === 'development',
+            migrations: [__dirname + '/../migrations/*{.ts,.js}'],
+            synchronize: false,
             logging: this.configService.get('NODE_ENV') === 'development',
             ssl: this.configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
         };
