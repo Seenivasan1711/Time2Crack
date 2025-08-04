@@ -1,6 +1,6 @@
 # Time2Crack Backend with NestJS
 
-A production-grade NestJS backend for the Time2Crack AI-assisted platform with JWT authentication, product catalog, cart/order management, scheduled delivery system, and AI features.
+A production-grade NestJS backend for the Time2Crack Premium Crackers & Sweets platform with JWT authentication, product catalog, cart/order management, scheduled delivery system, and AI features.
 
 ## Features
 

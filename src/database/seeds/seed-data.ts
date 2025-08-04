@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
-import { User, UserRole } from '../../modules/users/entities/user.entity';
+import { User } from '../../modules/users/entities/user.entity';
+import { UserRole } from '../../common/enums';
 import { Category } from '../../modules/categories/entities/category.entity';
 import { Product } from '../../modules/products/entities/product.entity';
 import * as bcrypt from 'bcrypt';
@@ -23,12 +24,9 @@ export const seedData = async (dataSource: DataSource) => {
 
   // Create Categories
   const categories = [
-    { name: 'Electronics', description: 'Latest electronic devices', slug: 'electronics', isActive: true },
-    { name: 'Furniture', description: 'Home and office furniture', slug: 'furniture', isActive: true },
-    { name: 'Clothing', description: 'Fashion and apparel', slug: 'clothing', isActive: true },
-    { name: 'Kitchen', description: 'Kitchen appliances', slug: 'kitchen', isActive: true },
-    { name: 'Accessories', description: 'Personal accessories', slug: 'accessories', isActive: true },
-    { name: 'Sports', description: 'Sports equipment', slug: 'sports', isActive: true },
+    { name: 'Crackers', description: 'Premium fireworks and crackers for celebrations', slug: 'crackers', isActive: true },
+    { name: 'Sweets', description: 'Traditional and modern sweets for all occasions', slug: 'sweets', isActive: true },
+    { name: 'Desserts', description: 'Delicious desserts and cakes for celebrations', slug: 'desserts', isActive: true },
   ];
 
   const savedCategories = [];
@@ -68,64 +66,64 @@ export const seedData = async (dataSource: DataSource) => {
   // Create Products
   const products = [
     {
-      name: 'Wireless Noise-Cancelling Headphones',
-      description: 'Premium wireless headphones with active noise cancellation',
+      name: 'Premium Sparklers Pack',
+      description: 'High-quality sparklers for celebrations and parties',
       price: 299.99,
       stock: 15,
-      slug: 'wireless-noise-cancelling-headphones',
+      slug: 'premium-sparklers-pack',
       imageUrl: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'electronics').id,
+      categoryId: savedCategories.find(c => c.slug === 'crackers').id,
     },
     {
-      name: 'Smart Fitness Watch',
-      description: 'Track your fitness goals with heart rate monitoring',
+      name: 'Fireworks Display Kit',
+      description: 'Complete fireworks kit for grand celebrations',
       price: 199.99,
       stock: 20,
-      slug: 'smart-fitness-watch',
+      slug: 'fireworks-display-kit',
       imageUrl: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'electronics').id,
+      categoryId: savedCategories.find(c => c.slug === 'crackers').id,
     },
     {
-      name: 'Ergonomic Office Chair',
-      description: 'Comfortable office chair with lumbar support',
+      name: 'Traditional Laddu',
+      description: 'Authentic traditional laddu made with pure ingredients',
       price: 249.99,
       stock: 8,
-      slug: 'ergonomic-office-chair',
+      slug: 'traditional-laddu',
       imageUrl: 'https://images.pexels.com/photos/1957478/pexels-photo-1957478.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'furniture').id,
+      categoryId: savedCategories.find(c => c.slug === 'sweets').id,
     },
     {
-      name: 'Organic Cotton T-Shirt',
-      description: 'Soft and breathable t-shirt made from organic cotton',
+      name: 'Gulab Jamun Mix',
+      description: 'Premium gulab jamun mix for homemade sweets',
       price: 29.99,
       stock: 50,
-      slug: 'organic-cotton-tshirt',
+      slug: 'gulab-jamun-mix',
       imageUrl: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'clothing').id,
+      categoryId: savedCategories.find(c => c.slug === 'sweets').id,
     },
     {
-      name: 'Professional Blender',
-      description: 'High-powered blender for smoothies and soups',
+      name: 'Chocolate Cake',
+      description: 'Delicious chocolate cake for celebrations',
       price: 129.99,
       stock: 12,
-      slug: 'professional-blender',
+      slug: 'chocolate-cake',
       imageUrl: 'https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'kitchen').id,
+      categoryId: savedCategories.find(c => c.slug === 'desserts').id,
     },
     {
-      name: 'Leather Wallet',
-      description: 'Genuine leather wallet with RFID protection',
+      name: 'Ice Cream Sundae',
+      description: 'Premium ice cream sundae with toppings',
       price: 49.99,
       stock: 30,
-      slug: 'leather-wallet',
+      slug: 'ice-cream-sundae',
       imageUrl: 'https://images.pexels.com/photos/2079438/pexels-photo-2079438.jpeg',
       isActive: true,
-      categoryId: savedCategories.find(c => c.slug === 'accessories').id,
+      categoryId: savedCategories.find(c => c.slug === 'desserts').id,
     },
   ];
 

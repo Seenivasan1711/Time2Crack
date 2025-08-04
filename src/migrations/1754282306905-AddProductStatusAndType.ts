@@ -1,0 +1,118 @@
+import { MigrationInterface, QueryRunner } from "typeorm";
+
+export class AddProductStatusAndType1754282306905 implements MigrationInterface {
+    name = 'AddProductStatusAndType1754282306905'
+
+    public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "products" DROP CONSTRAINT "products_categoryId_fkey"`);
+        await queryRunner.query(`ALTER TABLE "orders" DROP CONSTRAINT "orders_userId_fkey"`);
+        await queryRunner.query(`ALTER TABLE "order_items" DROP CONSTRAINT "order_items_orderId_fkey"`);
+        await queryRunner.query(`ALTER TABLE "order_items" DROP CONSTRAINT "order_items_productId_fkey"`);
+        await queryRunner.query(`ALTER TABLE "cart" DROP CONSTRAINT "cart_userId_fkey"`);
+        await queryRunner.query(`ALTER TABLE "cart" DROP CONSTRAINT "cart_productId_fkey"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_users_email"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_products_category"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_orders_user"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_order_items_order"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_cart_user"`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "role" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "isActive" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "updatedAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "updatedAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "isActive" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "updatedAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "updatedAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "stock" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "status" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "type" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "isActive" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "updatedAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "updatedAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "userId" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "status" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "updatedAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "updatedAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "orderId" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "productId" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "userId" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "productId" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "quantity" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "createdAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "createdAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "updatedAt" SET NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "updatedAt" SET DEFAULT now()`);
+        await queryRunner.query(`ALTER TABLE "products" ADD CONSTRAINT "FK_ff56834e735fa78a15d0cf21926" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "orders" ADD CONSTRAINT "FK_151b79a83ba240b0cb31b2302d1" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order_items" ADD CONSTRAINT "FK_f1d359a55923bb45b057fbdab0d" FOREIGN KEY ("orderId") REFERENCES "orders"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order_items" ADD CONSTRAINT "FK_cdb99c05982d5191ac8465ac010" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_756f53ab9466eb52a52619ee019" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "FK_371eb56ecc4104c2644711fa85f" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+    }
+
+    public async down(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`ALTER TABLE "cart" DROP CONSTRAINT "FK_371eb56ecc4104c2644711fa85f"`);
+        await queryRunner.query(`ALTER TABLE "cart" DROP CONSTRAINT "FK_756f53ab9466eb52a52619ee019"`);
+        await queryRunner.query(`ALTER TABLE "order_items" DROP CONSTRAINT "FK_cdb99c05982d5191ac8465ac010"`);
+        await queryRunner.query(`ALTER TABLE "order_items" DROP CONSTRAINT "FK_f1d359a55923bb45b057fbdab0d"`);
+        await queryRunner.query(`ALTER TABLE "orders" DROP CONSTRAINT "FK_151b79a83ba240b0cb31b2302d1"`);
+        await queryRunner.query(`ALTER TABLE "products" DROP CONSTRAINT "FK_ff56834e735fa78a15d0cf21926"`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "updatedAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "quantity" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "productId" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "cart" ALTER COLUMN "userId" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "productId" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "order_items" ALTER COLUMN "orderId" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "updatedAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "status" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "orders" ALTER COLUMN "userId" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "updatedAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "isActive" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "type" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "status" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "products" ALTER COLUMN "stock" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "updatedAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "categories" ALTER COLUMN "isActive" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "updatedAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "updatedAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "createdAt" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "isActive" DROP NOT NULL`);
+        await queryRunner.query(`ALTER TABLE "users" ALTER COLUMN "role" DROP NOT NULL`);
+        await queryRunner.query(`CREATE INDEX "IDX_cart_user" ON "cart" ("userId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_order_items_order" ON "order_items" ("orderId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_orders_user" ON "orders" ("userId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_products_category" ON "products" ("categoryId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_users_email" ON "users" ("email") `);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "cart_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "cart" ADD CONSTRAINT "cart_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order_items" ADD CONSTRAINT "order_items_productId_fkey" FOREIGN KEY ("productId") REFERENCES "products"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "order_items" ADD CONSTRAINT "order_items_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "orders"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "orders" ADD CONSTRAINT "orders_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "products" ADD CONSTRAINT "products_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+    }
+
+}

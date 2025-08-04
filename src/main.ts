@@ -27,7 +27,7 @@ async function bootstrap() {
   // Swagger documentation
   const config = new DocumentBuilder()
     .setTitle('Time2Crack API')
-    .setDescription('Time2Crack AI-assisted platform API')
+    .setDescription('Time2Crack Premium Crackers & Sweets Platform API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
