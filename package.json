@@ -25,6 +25,7 @@
     "schema:drop": "npm run typeorm -- schema:drop -d src/config/typeorm.config.ts",
     "db:create": "./scripts/create-database.sh",
     "db:setup": "./scripts/setup-database.sh",
+    "db:seed": "npx ts-node scripts/seed-database.ts",
     "postinstall": "echo 'If using Gemini, set AI_PROVIDER=gemini and GEMINI_API_KEY in your .env file.'"
   },
   "dependencies": {

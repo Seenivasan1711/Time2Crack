@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Category } from '../../categories/entities/category.entity';
+import { ProductStatus, ProductType } from '../../../common/enums';
 
 @Entity('products')
 export class Product {
@@ -34,6 +35,12 @@ export class Product {
 
   @Column({ type: 'varchar', length: 500, nullable: true })
   imageUrl: string;
+
+  @Column({ type: 'varchar', length: 50, default: ProductStatus.ACTIVE })
+  status: ProductStatus;
+
+  @Column({ type: 'varchar', length: 50, default: ProductType.PHYSICAL })
+  type: ProductType;
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;

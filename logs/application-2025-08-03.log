@@ -1,0 +1,40 @@
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:17:23.251Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:17:23.261Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:17:23.262Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:17:23.262Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:17:56.738Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:17:56.746Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:17:56.746Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:17:56.746Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:18:04.780Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:18:04.788Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:18:04.788Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:18:04.788Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:18:12.956Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:18:12.966Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:18:12.966Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:18:12.966Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:18:18.882Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:18:18.892Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:18:18.892Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:18:18.892Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:18:26.042Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:18:26.049Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:18:26.050Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:18:26.050Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:19:42.109Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:19:42.137Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:19:42.137Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:19:42.137Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:32:56.963Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:32:56.975Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:32:56.976Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:32:56.976Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:35:59.200Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:35:59.211Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:35:59.211Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:35:59.211Z"}
+{"level":"info","message":"Kafka is disabled, skipping connection","timestamp":"2025-08-03T13:36:11.090Z"}
+{"level":"info","message":"Application is running on: http://localhost:3000","timestamp":"2025-08-03T13:36:11.205Z"}
+{"level":"info","message":"Swagger documentation: http://localhost:3000/api-docs","timestamp":"2025-08-03T13:36:11.205Z"}
+{"level":"info","message":"Health check: http://localhost:3000/api/health","timestamp":"2025-08-03T13:36:11.205Z"}

@@ -21,6 +21,7 @@ import { DatabaseConfig } from './config/database.config';
 import { RedisConfig } from './config/redis.config';
 import { KafkaConfig } from './config/kafka.config';
 import { DatabaseInitService } from './common/utils/database-init';
+import { SampleDataService } from './common/utils/sample-data.service';
 
 @Module({
   imports: [
@@ -65,13 +66,19 @@ import { DatabaseInitService } from './common/utils/database-init';
     AssistantModule,
     HealthModule,
   ],
-  providers: [KafkaConfig, DatabaseInitService],
+  providers: [KafkaConfig, DatabaseInitService, SampleDataService],
 })
 export class AppModule implements OnModuleInit {
-  constructor(private readonly databaseInitService: DatabaseInitService) {}
+  constructor(
+    private readonly databaseInitService: DatabaseInitService,
+    private readonly sampleDataService: SampleDataService,
+  ) {}
 
   async onModuleInit() {
     // Initialize database on application startup
     await this.databaseInitService.initializeDatabase();
+    
+    // Populate sample data
+    await this.sampleDataService.populateSampleData();
   }
 } 

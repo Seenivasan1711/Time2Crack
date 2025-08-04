@@ -29,12 +29,15 @@ const database_config_1 = require("./config/database.config");
 const redis_config_1 = require("./config/redis.config");
 const kafka_config_1 = require("./config/kafka.config");
 const database_init_1 = require("./common/utils/database-init");
+const sample_data_service_1 = require("./common/utils/sample-data.service");
 let AppModule = class AppModule {
-    constructor(databaseInitService) {
+    constructor(databaseInitService, sampleDataService) {
         this.databaseInitService = databaseInitService;
+        this.sampleDataService = sampleDataService;
     }
     async onModuleInit() {
         await this.databaseInitService.initializeDatabase();
+        await this.sampleDataService.populateSampleData();
     }
 };
 exports.AppModule = AppModule;
@@ -69,8 +72,9 @@ exports.AppModule = AppModule = __decorate([
             assistant_module_1.AssistantModule,
             health_module_1.HealthModule,
         ],
-        providers: [kafka_config_1.KafkaConfig, database_init_1.DatabaseInitService],
+        providers: [kafka_config_1.KafkaConfig, database_init_1.DatabaseInitService, sample_data_service_1.SampleDataService],
     }),
-    __metadata("design:paramtypes", [database_init_1.DatabaseInitService])
+    __metadata("design:paramtypes", [database_init_1.DatabaseInitService,
+        sample_data_service_1.SampleDataService])
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
